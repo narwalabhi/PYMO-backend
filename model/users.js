@@ -17,20 +17,19 @@ const uschema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  subscription_topic:{
-      type:String,
-      required: true,
-      trim:true
+  subscription_topics: {
+    type: [String],
+    required: false,
   },
-  gender:{
-    type:String,
-    required: true
-  },
-  bio:{
-    type:String,
+  gender: {
+    type: String,
+    enum: ["male", "female", "others", "prefer not to say"],
     required: true,
-    trim:true
-  }
+  },
+  bio: {
+    type: String,
+    trim: true,
+  },
 });
 
 const User = mongoose.model("Users", uschema);
@@ -40,9 +39,9 @@ function validateUser(user) {
     username: Joi.string().min(5).max(50).required(),
     email: Joi.string().min(5).max(50).required().email(),
     password: Joi.string().min(5).max(50).required(),
-    subscription_topic: Joi.string().min(5).max(50).required(),
-    gender: Joi.string().min(4).max(6).required(),
-    bio: Joi.string().min(5).max(60).required(),
+    subscription_topic: Joi.array(),
+    gender: Joi.string(),
+    bio: Joi.string().max(120)
   };
 
   return Joi.validate(user, schema);
