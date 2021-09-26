@@ -1,9 +1,12 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const user = require("./routes/users");
-const auth=require("./routes/auth");
+const auth = require("./routes/auth");
 
-mongoose.connect("mongodb://localhost:27017/SocialMedia", (err) => {
+const mongodbUrl =
+  `mongodb+srv://m001-student:${process.env.DB_PASSWORD}@sandbox.5ke5h.mongodb.net/PYMO?retryWrites=true&w=majority`;
+
+mongoose.connect(mongodbUrl, (err) => {
   if (!err) {
     console.log("MongoDB Connection Succeeded.");
   } else {
