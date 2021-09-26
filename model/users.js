@@ -2,37 +2,39 @@ const jwt = require("jsonwebtoken");
 const Joi = require("joi");
 const mongoose = require("mongoose");
 
-const uschema = new mongoose.Schema({
-  username: {
-    type: String,
-    required: true,
-    trim: true,
+const uschema = new mongoose.Schema(
+  {
+    username: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    email: {
+      type: String,
+      unique: true,
+      required: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+    subscription_topics: {
+      type: [String],
+    },
+    gender: {
+      type: String,
+      enum: ["male", "female", "others", "prefer not to say"],
+      required: true,
+    },
+    bio: {
+      type: String,
+      trim: true,
+    },
   },
-  email: {
-    type: String,
-    unique: true,
-    required: true,
-  },
-  password: {
-    type: String,
-    required: true,
-  },
-  subscription_topics: {
-    type: [String],
-    required: false,
-  },
-  gender: {
-    type: String,
-    enum: ["male", "female", "others", "prefer not to say"],
-    required: true,
-  },
-  bio: {
-    type: String,
-    trim: true,
-  },
-});
-
-const User = mongoose.model("Users", uschema);
+  {
+    timestamps: true,
+  }
+);
 
 function validateUser(user) {
   const schema = {
@@ -41,11 +43,13 @@ function validateUser(user) {
     password: Joi.string().min(5).max(50).required(),
     subscription_topic: Joi.array(),
     gender: Joi.string(),
-    bio: Joi.string().max(120)
+    bio: Joi.string().max(120),
   };
 
   return Joi.validate(user, schema);
 }
+
+const User = mongoose.model("Users", uschema);
 
 exports.User = User;
 exports.validate = validateUser;
