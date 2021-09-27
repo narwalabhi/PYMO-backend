@@ -23,7 +23,7 @@ router.post("/", async (req, res) => {
   user.password = await bcrypt.hash(user.password, salt); //hasing with salt
 
   user = await user.save();
-  const token = jwt.sign({ _id: user._id }, process.env.SECRET_KEY);
+  const token = jwt.sign({ _id: user._id,username:user.username,isAdmin:user.isAdmin }, process.env.SECRET_KEY);
   res.header("auth-token", token).send(user);
 });
 
