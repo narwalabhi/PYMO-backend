@@ -30,6 +30,7 @@ const uschema = new mongoose.Schema(
       type: String,
       trim: true,
     },
+    isAdmin:Boolean
   },
   {
     timestamps: true,
