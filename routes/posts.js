@@ -1,5 +1,6 @@
-const { Post, validate } = require("../model/posts");
 const express = require("express");
+const { Post, validate } = require("../model/posts");
+
 
 const router = express.Router();
 
@@ -29,7 +30,7 @@ router.route("/").post((req, res, next) => {
 router
   .route("/:postId")
   .get((req, res, next) => {
-    Post.findById(req.params.postId)
+    Post.findOne({_id : req.params.postId})
       .then((post) => {
         res.statusCode = 200;
         res.setHeader("Content-Type", "application/json");
@@ -41,7 +42,7 @@ router
     Post.updateOne(
       { _id: req.params.postId },
       {
-        $set: req.body,
+        $set: req.body
       },
       { new: true }
     )
