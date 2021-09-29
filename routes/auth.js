@@ -8,6 +8,15 @@ const { User } = require("../model/users");
 const express = require("express");
 const router = express.Router();
 
+/**
+ * @swagger 
+ * /auth:
+ *    post:
+ *      description: Used for authentication
+ *      responses:
+ *        '200':
+ *          description: A successful login and response jwt.
+ */
 router.post("/", async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);

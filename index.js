@@ -1,8 +1,11 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const user = require("./routes/users");
+const swaggerUi = require("swagger-ui-express");
+const swaggerJsDoc = require("swagger-jsdoc");
+const users = require("./routes/users");
 const auth = require("./routes/auth");
-const post = require("./routes/posts");
+const posts = require("./routes/posts");
+const comments = require("./routes/comments");
 
 const mongodbUrl =
   `mongodb+srv://m001-student:${process.env.DB_PASSWORD}@sandbox.5ke5h.mongodb.net/PYMO?retryWrites=true&w=majority`;
@@ -19,10 +22,30 @@ const app = express();
 
 const port = process.env.PORT || 3000;
 
+const swaggerOptions = {
+  swaggerDefinition: {
+    info: {
+      title : "PYMO API",
+      description : "...",
+      contact : {
+        name : "Narwal Shaw Antil"
+      },
+      servers: ["http://localhost:3000"]
+    }
+  },
+  // Routes
+  apis: ["./routes/*.js"]
+};
+
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+
+app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 app.use(express.json());
-app.use("/api/users", user);
+app.use("/api/users", users);
 app.use("/api/auth", auth);
-app.use("/api/posts", post);
+app.use("/api/posts", posts);
+app.use("/api/comments", comments);
+
 
 //TODO : Add centralized error handling.
 
