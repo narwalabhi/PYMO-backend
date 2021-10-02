@@ -30,7 +30,8 @@ const userSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
-    isAdmin:Boolean
+    isAdmin:{type:Boolean,
+             default:false}
   },
   {
     timestamps: true,
