@@ -6,6 +6,7 @@ const users = require("./routes/users");
 const auth = require("./routes/auth");
 const posts = require("./routes/posts");
 const comments = require("./routes/comments");
+const topic=require("./routes/topics")
 
 const mongodbUrl =
   `mongodb+srv://m001-student:${process.env.DB_PASSWORD}@sandbox.5ke5h.mongodb.net/PYMO?retryWrites=true&w=majority`;
@@ -45,7 +46,7 @@ app.use("/api/users", users);
 app.use("/api/auth", auth);
 app.use("/api/posts", posts);
 app.use("/api/comments", comments);
-
+app.use("/api/topics", topics);
 
 //TODO : Add centralized error handling.
 
