@@ -51,3 +51,4 @@ app.use("/api/topics", topics);
 //TODO : Add centralized error handling.
 
 app.listen(port, () => console.log(`app listening on port ${port}`));
+console.log("Working");
