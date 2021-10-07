@@ -22,7 +22,7 @@ const commentSchema = new mongoose.Schema(
 
 function validateComment(comment) {
   const schema = {
-    text: Joi.string().max(120).required(),
+    text: Joi.string().required(),
     userId: Joi.string().required(),
     postId: Joi.string().required(),
   };
