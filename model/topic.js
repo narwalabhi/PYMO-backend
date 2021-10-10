@@ -16,13 +16,12 @@ const topicSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-function validateTopic(user) {
+function validateTopic(topic) {
   const schema = {
     recent_post_count: Joi.number().min(0),
     tag: Joi.string().max(120).required(),
   };
-
-  return Joi.validate(user, schema);
+  return Joi.validate(topic, schema);
 }
 
 const Topic = mongoose.model("Topics", topicSchema);

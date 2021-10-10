@@ -65,6 +65,9 @@ router
         res.json(result);
       })
       .catch((err) => next(err));
+
+      //TODO delete likes and comments related to the post being deleted.
+
   });
 
 module.exports = router;
