@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Joi = require("joi");
+const mongoosePaginate = require("mongoose-paginate-v2")
 
 const postSchema = new mongoose.Schema(
   {
@@ -40,6 +41,8 @@ function validatePost(post) {
 
   return Joi.validate(post, schema);
 }
+
+postSchema.plugin(mongoosePaginate);
 
 const Post = mongoose.model("posts", postSchema);
 

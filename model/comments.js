@@ -17,7 +17,7 @@ const commentSchema = new mongoose.Schema(
       required: true,
     },
   },
-  { timestamp: true }
+  { timetamps: true }
 );
 
 function validateComment(comment) {
