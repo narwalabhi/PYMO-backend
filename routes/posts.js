@@ -1,5 +1,6 @@
 const express = require("express");
 const { Post, validate } = require("../model/posts");
+const { User } = require("../model/users");
 
 const router = express.Router();
 
@@ -36,10 +37,10 @@ router
         totalDocs: "totalResults",
         docs: "posts",
       },
-      sort: ({ createdAt: -1 })
+      sort: { createdAt: -1 },
     };
 
-    Post.paginate({},options)
+    Post.paginate({}, options)
       .then((posts) => {
         res.statusCode = 200;
         res.setHeader("Content-Type", "application/json");
@@ -89,5 +90,39 @@ router
 
     //TODO delete likes and comments related to the post being deleted.
   });
+
+router.route("/feed/:userId").get((req, res, next) => {
+  const options = {
+    page: parseInt(req.query.page) || 1,
+    limit: parseInt(req.query.limit) || 10,
+    collation: { locale: "en" },
+    customLabels: {
+      totalDocs: "totalResults",
+      docs: "posts",
+    },
+    sort: { createdAt: -1 },
+  };
+  //fetching user topics
+  User.findOne({ _id: req.params.userId }).then((user) => {
+    const topics = user.subscription_topics;
+    const query = {
+      topics: {
+        $elemMatch: topics
+          ? {
+              $in: topics,
+            }
+          : { $nin: [] },
+      },
+    };
+    //fetch paginated posts with topics similar to the user
+    Post.paginate(query, options)
+      .then((posts) => {
+        res.statusCode = 200;
+        res.setHeader("Content-Type", "application/json");
+        res.json(posts);
+      })
+      .catch((err) => next(err));
+  });
+});
 
 module.exports = router;
